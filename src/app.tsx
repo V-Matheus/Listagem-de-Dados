@@ -7,6 +7,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { Pagination } from "./components/pagination"
 import { useSearchParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import useDebauceValue from "./hooks/use-debouce-value"
 
 export interface TagResponse {
   first: number
@@ -26,12 +28,23 @@ export interface Tag {
 
 export function App() { 
 
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [filter, setFilter] = useState('')
+
+  const debouncedFilter = useDebauceValue(filter, 1000)
 
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
 
+  useEffect(() => {
+    setSearchParams(params => {
+      params.set('page', '1')
+
+      return params
+    })
+  }, [debouncedFilter, setSearchParams])
+
   const {data: tagsResponse, isLoading} = useQuery<TagResponse>({
-    queryKey: ['get-tags', page],
+    queryKey: ['get-tags', debouncedFilter,  page],
     queryFn: async () => {
      const response = await fetch(`http://localhost:3333/tags?_page=${page}&_per_page=10`)
      const data = await response.json()
@@ -63,7 +76,7 @@ export function App() {
           <div className="flex items-center justify-between">
             <Input variant="filter">
               <Search className="size-3"/>
-              <Control placeholder="Search Tags"/>
+              <Control placeholder="Search Tags..." onChange={e => setFilter(e.target.value)} value={filter}/>
             </Input>
 
             <Button>
