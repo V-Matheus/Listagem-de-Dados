@@ -40,6 +40,12 @@ export function Pagination({ items, page, pages }: PaginationProps) {
 
   function nextPage() {
     if(page + 1 > pages) return
+
+    setSearchParams(params => {
+      params.set('page', String(page + 1))
+
+      return params
+  })
   }
 
   function lastPage() {
