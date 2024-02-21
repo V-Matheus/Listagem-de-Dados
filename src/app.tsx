@@ -5,6 +5,7 @@ import { Button } from "./components/ui/button"
 import { Control, Input } from "./components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./components/ui/table"
 import { useQuery } from "@tanstack/react-query"
+import { Pagination } from "./components/pagination"
 
 export interface TagResponse {
   first: number
@@ -29,8 +30,6 @@ export function App() {
      const response = await fetch('http://localhost:3333/tags?_page=1&_per_page=10')
      const data = await response.json()
 
-    console.log(data)
-     
      return data
     }
   })
@@ -74,17 +73,17 @@ export function App() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({length: 10}).map((value, index) => {
-                return (<TableRow key={index}>
+              {tagsResponse?.data.map((tag) => {
+                return (<TableRow key={tag.id}>
                   <TableCell></TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-0.5">
-                      <span className="font-medium"></span>
-                      <span className="text-xm text-zinc-500">00033-FDD918189-2927191</span>
+                      <span className="font-medium">{tag.title}</span>
+                      <span className="text-xm text-zinc-500">{tag.id}</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-zinc-300">
-                    13 videos
+                    {tag.amountOfVideos} video(s)
                   </TableCell>
                   <TableCell className="text-right">
                     <Button size="icon">
@@ -95,6 +94,9 @@ export function App() {
               })}
             </TableBody>
           </Table>
+
+ 
+          {tagsResponse && <Pagination pages={tagsResponse.pages} items={tagsResponse.items} page={1}/>}
         </main>
       </div>
   )
