@@ -4,8 +4,38 @@ import { Tabs } from "./components/tabs"
 import { Button } from "./components/ui/button"
 import { Control, Input } from "./components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./components/ui/table"
+import { useQuery } from "@tanstack/react-query"
+
+export interface TagResponse {
+  first: number
+  prev: number | null
+  next: number
+  last: number
+  pages: number
+  items: number
+  data: Tag[]
+}
+
+export interface Tag {
+  title: string
+  amountOfVideos: number
+  id: string
+}
 
 export function App() {
+  const {data: tagsResponse, isLoading} = useQuery<TagResponse>({
+    queryKey: ['get-tags'],
+    queryFn: async () => {
+     const response = await fetch('http://localhost:3333/tags?_page=1&_per_page=10')
+     const data = await response.json()
+
+    console.log(data)
+     
+     return data
+    }
+  })
+
+  if(isLoading) return null
 
   return (
       <div className="py-10 space-y-8">
