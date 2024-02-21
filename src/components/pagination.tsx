@@ -7,6 +7,7 @@ import {
 
 import { Button } from './ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger } from './ui/select'
+import { useSearchParams } from 'react-router-dom'
 
 interface PaginationProps {
   pages: number
@@ -15,6 +16,39 @@ interface PaginationProps {
 }
 
 export function Pagination({ items, page, pages }: PaginationProps) {
+
+  const [, setSearchParams] = useSearchParams()
+
+  function firstPage() {
+    setSearchParams(params => {
+      params.set('page', '1')
+
+      return params
+    })
+  }
+
+  function previousPage() {
+
+    if(page - 1 <= 0) return
+
+    setSearchParams(params => {
+      params.set('page', String(page - 1))
+
+      return params
+    })
+  }
+
+  function nextPage() {
+    if(page + 1 > pages) return
+  }
+
+  function lastPage() {
+    setSearchParams(params => {
+      params.set('page', String(pages))
+
+      return params
+  })
+}
 
   return (
     <div className="flex text-sm items-center justify-between text-zinc-500">
@@ -36,19 +70,19 @@ export function Pagination({ items, page, pages }: PaginationProps) {
         <span>Page {page} of {pages}</span>
 
         <div className="space-x-1.5">
-          <Button size="icon" disabled={page - 1 <= 0}>
+          <Button onClick={firstPage} size="icon" disabled={page - 1 <= 0}>
             <ChevronsLeft className="size-4" />
             <span className="sr-only">First page</span>
           </Button>
-          <Button size="icon" disabled={page - 1 <= 0}>
+          <Button onClick={previousPage} size="icon" disabled={page - 1 <= 0}>
             <ChevronLeft className="size-4" />
             <span className="sr-only">Previous page</span>
           </Button>
-          <Button  size="icon" disabled={page + 1 > pages}>
+          <Button onClick={nextPage}  size="icon" disabled={page + 1 > pages}>
             <ChevronRight className="size-4" />
             <span className="sr-only">Next page</span>
           </Button>
-          <Button size="icon" disabled={page + 1 > pages}>
+          <Button onClick={lastPage} size="icon" disabled={page + 1 > pages}>
             <ChevronsRight className="size-4" />
             <span className="sr-only">Last page</span>
           </Button>
