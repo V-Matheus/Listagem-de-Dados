@@ -44,23 +44,25 @@ export function App() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell></TableCell>
-                <TableCell>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="font-medium"></span>
-                    <span className="text-xm text-zinc-500">00033-FDD918189-2927191</span>
-                  </div>
-                </TableCell>
-                <TableCell className="text-zinc-300">
-                  13 videos
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button size="icon">
-                    <MoreHorizontal className="size-4"/>
-                  </Button>
-                </TableCell>
-              </TableRow>
+              {Array.from({length: 10}).map((value, index) => {
+                return (<TableRow key={index}>
+                  <TableCell></TableCell>
+                  <TableCell>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-medium"></span>
+                      <span className="text-xm text-zinc-500">00033-FDD918189-2927191</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-zinc-300">
+                    13 videos
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button size="icon">
+                      <MoreHorizontal className="size-4"/>
+                    </Button>
+                  </TableCell>
+                </TableRow>)
+              })}
             </TableBody>
           </Table>
         </main>
