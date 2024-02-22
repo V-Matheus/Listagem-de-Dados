@@ -1199,6 +1199,12 @@
       "title": "Gatsby",
       "amountOfVideos": 30,
       "id": "e726"
+    },
+    {
+      "id": "0173",
+      "title": "deve aparecer na lista ",
+      "slug": "deve-aparecer-na-lista-",
+      "amountOfVideos": 0
     }
   ]
 }
