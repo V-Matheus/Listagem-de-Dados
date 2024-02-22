@@ -22,7 +22,8 @@ export interface TagResponse {
 }
 
 export interface Tag {
-  title: string
+  title: string,
+  slug: string
   amountOfVideos: number
   id: string
 }
@@ -81,7 +82,7 @@ export function App() {
                 <Dialog.Content className="fixed p-10 space-y-10 right-0 top-0 bottom-0 h-screen min-w-[320px] z-10 bg-zinc-950 border-l border-zinc-900">
                   <div className="space-y-3">
                     <Dialog.Title className="text-xl font-bold">
-                      Create Tag
+                      Create Tag 
                     </Dialog.Title>
                     <Dialog.Description className="text-sm text-zinc-500">
                       Tags can be used to group video about similar concepts.
@@ -132,7 +133,7 @@ export function App() {
                   <TableCell>
                     <div className="flex flex-col gap-0.5">
                       <span className="font-medium">{tag.title}</span>
-                      <span className="text-xm text-zinc-500">{tag.id}</span>
+                      <span className="text-xm text-zinc-500">{tag.slug}</span>
                     </div>
                   </TableCell>
                   <TableCell className="text-zinc-300">

@@ -27,19 +27,29 @@ export function CreateTagForm() {
     resolver: zodResolver(createTagSchema)
   })
 
-  function createTag({title}: CreateTagSchema) {
-    console.log(title);
-  }
-  
   const slug = watch('title') 
-    ? getSlugFromString(watch('title')) 
-    : '' 
+  ? getSlugFromString(watch('title')) 
+  : '' 
+
+  async function createTag({title}: CreateTagSchema) {
+
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    await fetch('http://localhost:3333/tags', {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        slug,
+        amountOfVideos: 0,
+      }) 
+    })
+  }
 
   return (
     <form onSubmit={handleSubmit(createTag)} className="w-full space-y-6">
       <div className="space-y-2">
         <label className="text-sm block font-medium"  htmlFor="title">Tag Name</label>
-        <input {...register('title')} type="text" id="name" className="border border-zinc-800 rounded-lg px-3 py-2.5 bg-zinc-800/50 w-full text-sm" />
+        <input {...register('title')} type="text" id="title" className="border border-zinc-800 rounded-lg px-3 py-2.5 bg-zinc-800/50 w-full text-sm" />
       </div>
 
       <div className="space-y-2">
